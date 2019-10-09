@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 const Incidents = mongoose.model('Incidents');
 
-module.exports.register = (req, res, next) =>{
+module.exports.register = (req, res, next) => {
     var incidents = new Incidents();
     incidents.idIncidente = req.body.idIncidente;
     incidents.nivelImpacto = req.body.nivelImpacto;
@@ -14,10 +14,20 @@ module.exports.register = (req, res, next) =>{
     incidents.fechaInicio = req.body.fechaInicio;
     incidents.fechaFinal = req.body.fechaFinal;
     incidents.estado = req.body.estado;
-    
+
     incidents.save((err, doc) => {
         if (!err)
-        res.send(doc);
+            res.send(doc);
     });
 }
 
+module.exports.listincident = (req, res, next) => {
+    Incidents.find(function(err, doc) {
+        //Si hay un error, lo regresamos
+        if (err){
+          res.send(err);
+        }
+        //Si no hay errores, regresamos los registros
+        res.send(doc);
+    });
+    }
